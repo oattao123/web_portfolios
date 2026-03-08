@@ -5,7 +5,18 @@
     <meta charset="UTF-8">
     <title>Dollatham Charoenthammakit — Curriculum Vitae</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Standard Professional Font Stack */
+        /* Print Settings for PDF generation */
+        @page {
+            size: A4;
+            margin: 0.25in;
+        }
+
+        :root {
+            --text-main: #222222; /* softened black for easier reading */
+            --text-muted: #444444; /* softened grey */
+            --border-color: #000000;
+        }
 
         * {
             margin: 0;
@@ -14,226 +25,190 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: #1a1a2e;
-            font-size: 10pt;
-            line-height: 1.5;
-            padding: 40px 48px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--text-main);
+            font-size: 8.5pt;
+            line-height: 1.45;
+            padding: 4px;
             max-width: 8.5in;
+            margin: 0 auto;
+            background-color: white;
+            text-rendering: optimizeLegibility;
+            font-variant-numeric: tabular-nums lining-nums;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
-            color: #4338ca;
+            color: var(--text-main);
             text-decoration: none;
         }
 
+        /* --- HEADER STYLES --- */
+        .resume-header {
+            text-align: center;
+            margin-bottom: 4px;
+        }
+
         h1 {
-            font-size: 22pt;
-            font-weight: 700;
-            color: #0f0f2e;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16pt;
+            font-weight: 700; /* Pulled back from extra bold */
             margin-bottom: 2px;
+            letter-spacing: -0.01em;
         }
 
-        .subtitle {
-            font-size: 11pt;
-            color: #6366f1;
+        .contact-info {
+            font-size: 8.5pt;
+            color: var(--text-muted); /* Revert back to lighter tone for info */
             font-weight: 500;
-            margin-bottom: 6px;
+            /* Removed italics for better number readability */
         }
 
-        .contact-line {
-            font-size: 9pt;
-            color: #555;
-            margin-bottom: 18px;
+        .contact-info span:not(:last-child)::after {
+            content: " — ";
+            margin: 0 4px;
         }
 
-        .contact-line span {
-            margin-right: 12px;
+        /* --- MAIN LAYOUT STRUCTURE --- */
+        .section {
+            display: grid;
+            grid-template-columns: 105px 1fr;
+            gap: 8px;
+            margin-bottom: 4px;
+            border-top: 1.5px solid var(--border-color); /* Thicker for a formal look */
+            padding-top: 4px;
+            page-break-inside: avoid;
         }
 
-        .summary {
-            color: #444;
-            font-size: 10pt;
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        h2 {
-            font-size: 11pt;
-            font-weight: 700;
-            color: #4338ca;
+        /* The Left Column (Titles & Dates) */
+        .section-title {
+            font-size: 8.5pt;
+            font-weight: 700; /* Pulled back to standard bold */
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 4px;
-            margin-top: 18px;
-            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+            margin-top: 2px;
         }
 
-        h3 {
-            font-size: 10pt;
-            font-weight: 600;
+        .entry-date {
+            font-size: 8.5pt;
+            color: var(--text-muted);
+            margin-top: 1px;
+            font-weight: 400; /* Pulled back the thick date */
+            white-space: nowrap;
+            flex-shrink: 0;
+            text-align: right;
+            margin-left: 12px;
         }
 
+        /* The Right Column (Content) */
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* --- ENTRY ITEM STYLES --- */
         .entry {
-            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .entry-header {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: flex-start;
         }
 
-        .entry-header .right {
+        .job-title {
+            font-size: 9.5pt;
+            font-weight: 700; /* Pulled back to standard bold */
+        }
+
+        .company-name {
             font-size: 9pt;
-            color: #666;
-            font-weight: 500;
+            font-weight: 500; /* Lighter company name */ 
+            margin-bottom: 2px;
+            color: var(--text-main);
         }
 
-        .company {
-            color: #555;
-            font-size: 9.5pt;
-            font-weight: 500;
-        }
-
-        .desc {
-            color: #444;
-            font-size: 9.5pt;
-            margin-top: 3px;
-            line-height: 1.55;
-        }
-
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 5px;
-        }
-
-        .tag {
-            padding: 2px 10px;
-            background: #f0f0ff;
-            border: 1px solid #e0e0f0;
-            border-radius: 4px;
+        .location {
             font-size: 8.5pt;
-            color: #4338ca;
+            color: var(--text-muted);
+            text-align: right;
+            font-weight: 500;
         }
 
-        .skills-section {
-            margin-bottom: 6px;
+        /* Descriptive Text */
+        .summary-text {
+            font-size: 8.5pt;
+            text-align: justify;
+            color: var(--text-main); /* Darker for better read */
+            font-weight: 400;
         }
 
-        .skills-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px 16px;
-            font-size: 9.5pt;
-            color: #333;
-            margin-bottom: 5px;
+        .desc-text {
+            font-size: 8.5pt;
+            color: var(--text-main);
+            line-height: 1.45; /* Breathe more */
+            margin-bottom: 2px;
         }
 
-        .skills-row strong {
-            min-width: 160px;
-            color: #1a1a2e;
-            font-weight: 600;
+        ul.desc-list {
+            margin-left: 14px;
         }
 
-        .course-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px 24px;
+        ul.desc-list li {
+            font-size: 8.5pt;
+            color: var(--text-main); /* Formal read is usually solid black for text */
+            margin-bottom: 2px;
+            line-height: 1.45;
+            font-weight: 400;
         }
 
-        .course-cat {
-            margin-bottom: 8px;
+        ul.desc-list li::marker {
+            font-size: 0.9em;
         }
 
-        .course-cat h4 {
-            font-size: 9.5pt;
-            font-weight: 600;
-            color: #4338ca;
-            margin-bottom: 3px;
-        }
-
-        .course-cat ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .course-cat li {
-            font-size: 9pt;
-            color: #444;
-            padding: 1px 0;
-            padding-left: 12px;
-            position: relative;
-        }
-
-        .course-cat li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: #6366f1;
-        }
-
-        .two-col {
+        /* Skills Grid */
+        .skills-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4px 24px;
         }
 
-        .award-item {
-            font-size: 9.5pt;
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .award-item strong {
-            color: #1a1a2e;
-        }
-
-        .pos-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .pos-card {
-            padding: 10px 14px;
-            background: #f8f8ff;
-            border: 1px solid #e8e8f0;
-            border-radius: 6px;
-        }
-
-        .pos-card h4 {
-            font-size: 9.5pt;
-            font-weight: 600;
-            color: #1a1a2e;
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 8.5pt;
             margin-bottom: 2px;
         }
 
-        .pos-card p {
+        .skill-name {
+            font-weight: 600; /* Demphasized skills list */
+            color: var(--text-main);
+        }
+
+        .skill-details {
+            color: var(--text-main); /* Non-muted */
+            text-align: right;
             font-size: 8.5pt;
-            color: #555;
-            line-height: 1.4;
         }
 
         .page-break {
             page-break-before: always;
+            margin-top: 0;
+            display: none;
         }
 
         @media print {
             body {
-                padding: 0.5in 0.55in;
+                padding: 0;
             }
-
-            @page {
-                size: A4;
-                margin: 0;
-            }
-
-            .page-break {
-                page-break-before: always;
+            .section {
+                border-top: 0.5px solid var(--border-color); /* Finer line for print */
             }
         }
     </style>
@@ -241,330 +216,212 @@
 
 <body>
 
-    <h1>Dollatham Charoenthammakit</h1>
-    <div class="subtitle">AI Engineer · AI Cybersecurity · Data Scientist · Data Engineer</div>
-    <div class="contact-line">
-        <span>📧 dceriythrrmkic@gmail.com</span>
-        <span>📞 064-553-6245</span>
-        <span>🔗 <a href="https://github.com/oattao123">github.com/oattao123</a></span>
-        <span>📍 Bangkok, Thailand</span>
-    </div>
-
-    <div class="summary">
-        A dedicated Computer Science student at KMUTT with a strong focus on Artificial Intelligence, Machine Learning,
-        Cybersecurity, and Full-Stack Development. Experienced in developing AI-powered systems ranging from eye disease
-        detection to financial market prediction. Passionate about bridging cutting-edge AI research with practical,
-        production-ready applications.
-    </div>
-
-    <!-- EDUCATION -->
-    <h2>Education</h2>
-    <div class="entry">
-        <div class="entry-header">
-            <h3>King Mongkut's University of Technology Thonburi (KMUTT)</h3>
-            <span class="right">2022 — Present</span>
-        </div>
-        <div class="company">Bachelor of Science in Applied Computer Science · GPAX 3.18</div>
-        <div class="desc">Bangkok, Thailand</div>
-    </div>
-
-    <!-- EXPERIENCE -->
-    <h2>Work Experience</h2>
-    <div class="entry">
-        <div class="entry-header">
-            <h3>AI Cybersecurity Intern</h3>
-            <span class="right">2025</span>
-        </div>
-        <div class="company">Datafarm Co., Ltd.</div>
-        <div class="desc">
-            Gained hands-on experience applying AI and machine learning to cybersecurity operations. Developed AI-driven
-            threat detection pipelines, automated vulnerability scanning with intelligent triage, and built models for
-            security log anomaly detection. Participated in penetration testing, digital forensics, and leveraged
-            LLM-based tools for accelerated OSINT and incident response.
-        </div>
-        <div class="tag-list">
-            <span class="tag">AI Threat Detection</span>
-            <span class="tag">ML Security Analytics</span>
-            <span class="tag">Penetration Testing</span>
-            <span class="tag">Digital Forensics</span>
-            <span class="tag">LLM for Security</span>
-            <span class="tag">OSINT</span>
+    <div class="resume-header">
+        <h1>Dollatham Charoenthammakit</h1>
+        <div class="contact-info">
+            <span>Phutthabucha 48, Bang Mot, Thung Khru, Bangkok 10140</span>
+            <span>064 553 6245</span>
+            <span>dceriythrrmkic@gmail.com</span>
+            <span>github.com/oattao123</span>
+            <span>https://web-portfolios-phi.vercel.app</span>
         </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>AI Trading Intern</h3>
-            <span class="right">2024</span>
-        </div>
-        <div class="company">Pi Securities Public Company Limited</div>
-        <div class="desc">
-            Applied machine learning, deep learning, and data science techniques to develop intelligent trading systems,
-            analyze financial market data, and optimize trading strategies.
-        </div>
-        <div class="tag-list">
-            <span class="tag">AI Trading</span>
-            <span class="tag">Machine Learning</span>
-            <span class="tag">Financial Markets</span>
-            <span class="tag">Quantitative Analysis</span>
+    <!-- PROFILE SECTION -->
+    <div class="section" style="margin-bottom: 8px; padding-top: 0; border-top: none;">
+        <div class="section-title">PROFILE</div>
+        <div class="section-content">
+            <div class="summary-text">
+                Results-driven AI & Software Engineer specializing in Large Language Models (LLMs), Computer Vision, and quantitative trading algorithms. Adept at designing end-to-end scalable ML systems, from architecting high-frequency trading infrastructure to executing deep adversarial red teaming on state-of-the-art models like Gemini and Grok. Strong foundation in Python, PyTorch, and cloud-native backend development, eager to bring technical rigor to high-impact environments.
+            </div>
         </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Part-time Developer</h3>
-            <span class="right">2023</span>
+    <!-- EDUCATION SECTION -->
+    <div class="section">
+        <div class="left-col">
+            <div class="section-title">EDUCATION</div>
         </div>
-        <div class="company">Research Center of KMUTT</div>
-        <div class="desc">
-            Worked on a research project on vehicle accidents utilizing AI technology to calculate and assess vehicle
-            damage. Developed the cross-platform application using Flutter for both iOS and Android, ensuring seamless
-            integration with the AI processing system.
-        </div>
-        <div class="tag-list">
-            <span class="tag">Flutter</span>
-            <span class="tag">Dart</span>
-            <span class="tag">iOS</span>
-            <span class="tag">Android</span>
-            <span class="tag">AI Integration</span>
-            <span class="tag">REST API</span>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">Bachelor of Science in Applied Computer Science</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">2022 — Present</div>
+                </div>
+                <div class="company-name">King Mongkut's University of Technology Thonburi (KMUTT)</div>
+                <div class="desc-text">Bangkok, Thailand · GPAX 3.18</div>
+            </div>
         </div>
     </div>
 
-    <!-- TECHNICAL SKILLS -->
-    <h2>Technical Skills</h2>
-    <div class="skills-section">
-        <div class="skills-row"><strong>Programming Languages:</strong> Python, SQL, C++, Java, JavaScript, TypeScript,
-            Dart, Swift</div>
-        <div class="skills-row"><strong>AI / Machine Learning:</strong> PyTorch, TensorFlow, Hugging Face, OpenCV,
-            LSTM/CNN, Transformers, RAG, LLM, LangChain</div>
-        <div class="skills-row"><strong>Data Science & Eng.:</strong> Pandas, NumPy, Scikit-learn, XGBoost, Matplotlib,
-            Seaborn, Apache Spark, ETL</div>
-        <div class="skills-row"><strong>Cybersecurity:</strong> Wireshark, Nmap, Burp Suite, Metasploit, SQLMap, Nikto,
-            Hashcat, Aircrack-ng, OSINT, Sherlock, Tor, Ghidra</div>
-        <div class="skills-row"><strong>Frontend:</strong> React, Next.js, Tailwind CSS, TypeScript</div>
-        <div class="skills-row"><strong>Backend:</strong> Node.js, Express, Django, Flask, FastAPI, NestJS, REST API
+    <!-- PUBLICATIONS SECTION -->
+    <div class="section">
+        <div class="left-col">
+            <div class="section-title">PUBLICATIONS</div>
         </div>
-        <div class="skills-row"><strong>Mobile:</strong> Flutter, React Native, Dart, Swift, iOS, Android</div>
-        <div class="skills-row"><strong>Database:</strong> PostgreSQL, MySQL, MongoDB, Redis, SQLite, Firebase, Supabase
-        </div>
-        <div class="skills-row"><strong>DevOps & Tools:</strong> Git, Docker, Kubernetes, GitHub Actions, CI/CD</div>
-        <div class="skills-row"><strong>Operating Systems:</strong> Linux, Ubuntu, Kali Linux, Windows, macOS</div>
-    </div>
-
-    <!-- PROJECTS -->
-    <h2>Academic Projects</h2>
-
-    <div class="entry">
-        <div class="entry-header">
-            <h3>TrendReversal-AI — Market Trend Reversal System</h3><span class="right">Capstone Project</span>
-        </div>
-        <div class="desc">End-to-end machine learning system predicting financial market trend reversals across 5 global
-            markets (US, UK, Thai, Gold, Bitcoin). Features deep learning models (LSTM, CNN, Transformer),
-            regime-switching strategy via HMM/GMM, multi-objective parameter optimization (NSGA-II), hybrid LLM agent
-            with RAG, and an interactive dashboard.</div>
-        <div class="tag-list">
-            <span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">LSTM</span><span
-                class="tag">Transformers</span><span class="tag">HMM/GMM</span><span class="tag">NSGA-II</span><span
-                class="tag">LLM</span><span class="tag">RAG</span>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">ReflectanceGAN: Geospatial SAR-to-MSI Translation</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">Nov. 2024</div>
+                </div>
+                <div class="company-name">Conference Paper · IEEE iSAI-NLP</div>
+                <ul class="desc-list">
+                    <li>Accepted and published at the 20th International Joint Symposium on Artificial Intelligence and Natural Language Processing.</li>
+                    <li><strong>Authors:</strong> Dollatham Charoenthammakit, Thittaporn Ganokratanaa, Mahasak Ketcham, Pariwate Varnakovida.</li>
+                    <li><strong>DOI:</strong> <a href="https://doi.org/10.1109/iSAI-NLP66160.2025.11320692" target="_blank" rel="noopener noreferrer">10.1109/iSAI-NLP66160.2025.11320692</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>GitHub OSINT & Secret-Scanning Engine</h3><span class="right">Cybersecurity / AI</span>
+    <!-- EXPERIENCE SECTION -->
+    <div class="section">
+        <div class="left-col">
+            <div class="section-title">EXPERIENCE</div>
         </div>
-        <div class="desc">High-throughput OSINT engine scanning public GitHub repositories at 200 repos/min to
-            automatically detect hard-coded secrets. Features on-premise LLaMA-based AI classification, async
-            networking, Redis caching, ChromaDB vector indexing, and real-time metrics.</div>
-        <div class="tag-list">
-            <span class="tag">Python</span><span class="tag">LLaMA</span><span class="tag">Redis</span><span
-                class="tag">ChromaDB</span><span class="tag">Docker</span><span class="tag">Asyncio</span><span
-                class="tag">OSINT</span>
-        </div>
-    </div>
-
-    <div class="entry">
-        <div class="entry-header">
-            <h3>MongTa — Eye Disease Detection</h3><span class="right">Software Eng.</span>
-        </div>
-        <div class="desc">Application detecting cataracts, styes, conjunctivitis, and pterygium. Developed multiple
-            models (YOLOv11, Transformers) and set up a server for data transmission to the frontend.</div>
-        <div class="tag-list">
-            <span class="tag">YOLOv11</span><span class="tag">Transformers</span><span class="tag">Roboflow</span><span
-                class="tag">Computer Vision</span>
+        <div class="section-content">
+            
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">AI Cybersecurity Intern, Datafarm Co., Ltd.</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">Jan — Mar 2025</div>
+                </div>
+                <ul class="desc-list">
+                    <li>Engineered AI-driven threat detection pipelines and automated vulnerability scanning systems.</li>
+                    <li>Developed machine learning models for anomaly detection in security logs, reducing manual triage time by an estimated 40% and increasing threat detection accuracy.</li>
+                    <li>Leveraged LLM-based tools to accelerate OSINT investigations and incident response workflows, participating seamlessly in penetration testing and digital forensics operations.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>SAR to Multispectral Imagery — GANs & Vision Transformers</h3><span class="right">DS & DE</span>
+    <!-- Experience 2nd Item (Date shifts to left col) -->
+    <div class="section" style="border-top: none; padding-top: 0; margin-top: -8px;">
+        <div class="left-col">
         </div>
-        <div class="desc">Satellite image enhancement and colorization using Pix2Pix, SRGAN, and SwinUNet with
-            comprehensive data engineering.</div>
-        <div class="tag-list">
-            <span class="tag">Pix2Pix</span><span class="tag">SRGAN</span><span class="tag">SwinUNet</span><span
-                class="tag">GANs</span><span class="tag">Vision Transformers</span>
-        </div>
-    </div>
-
-    <div class="page-break"></div>
-
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Automated Trading Bot — ML for Crypto Prediction</h3><span class="right">Capstone Project</span>
-        </div>
-        <div class="desc">Trading bots using machine learning to predict Bitcoin trends and execute real-time trades,
-            integrated with Binance. Used Decision Tree and Hidden Markov Model with feature selection via Gini Index
-            and Entropy.</div>
-        <div class="tag-list">
-            <span class="tag">Decision Tree</span><span class="tag">HMM</span><span class="tag">Binance API</span><span
-                class="tag">Python</span>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">AI Trading Intern, Pi Securities Public Company Limited</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">May — Aug 2024</div>
+                </div>
+                <ul class="desc-list">
+                    <li>Architected intelligent quantitative trading systems relying on deep learning and statistical modeling.</li>
+                    <li>Analyzed high-frequency financial market data to identify alpha signals, engineering autonomous algorithms to optimize trading strategies, maximizing risk-adjusted returns and market adaptability.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Penetration Testing & Vulnerability Assessment</h3><span class="right">Cybersecurity</span>
+
+    <!-- PROJECTS SECTION -->
+    <div class="section">
+        <div class="left-col">
+            <div class="section-title">PROJECTS</div>
         </div>
-        <div class="desc">Comprehensive penetration testing on servers and websites. Identified vulnerabilities and
-            generated risk assessment reports following international standards.</div>
-        <div class="tag-list">
-            <span class="tag">Nmap</span><span class="tag">Metasploit</span><span class="tag">SQLMap</span><span
-                class="tag">Nikto</span>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">TrendReversal-AI — Market Trend Reversal System</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">Capstone · Jan — Mar 2025</div>
+                </div>
+                <ul class="desc-list">
+                    <li>Designed and implemented an end-to-end machine learning system projecting trend reversals across 5 major global markets (US, UK, Thai, Gold, Bitcoin).</li>
+                    <li>Integrated LSTM, CNN, and Transformer models with a Hidden Markov Model (HMM) regime-switching strategy.</li>
+                    <li>Optimized hyperparameters utilizing NSGA-II and deployed a hybrid LLM agent with Retrieval-Augmented Generation (RAG) for deep, interactive market analytics.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Wongyos CTF — Ethical Hacking Challenges</h3><span class="right">CTF Competition</span>
+    <div class="section" style="border-top: none; padding-top: 0; margin-top: -8px;">
+        <div class="left-col">
         </div>
-        <div class="desc">Solved cybersecurity challenges in Reverse Engineering, Cryptography, Digital Forensics, Web
-            Exploitation, and System Exploitation.</div>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">LLM Red Teaming & Prompt Jailbreaking</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">AI Security · Aug — Dec 2024</div>
+                </div>
+                <ul class="desc-list">
+                    <li>Conducted advanced security testing and adversarial prompt engineering (jailbreaking) on state-of-the-art Large Language Models.</li>
+                    <li>Successfully identified edge-case vulnerabilities and bypassed safety guardrails in highly secure models including Gemini 2.5 and Grok 4.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>University Network Malware Analysis & Forensics</h3><span class="right">Malware Analysis</span>
+    <div class="section" style="border-top: none; padding-top: 0; margin-top: -8px;">
+        <div class="left-col">
         </div>
-        <div class="desc">Detected and analyzed backdoor malware using IDA Pro, Ghidra, and HxD to extract hardcoded
-            credentials and uncover unauthorized authentication mechanisms.</div>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">GitHub OSINT & Secret-Scanning Engine</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">AI Cybersecurity · Apr — Jul 2024</div>
+                </div>
+                <ul class="desc-list">
+                    <li>Built a high-throughput async OSINT engine capable of scanning public GitHub repositories at 200 repos/min for exposed vulnerabilities and hard-coded secrets.</li>
+                    <li>Deployed an on-premise LLaMA model for intelligent classification, utilizing robust Redis caching and ChromaDB for vector indexing to handle massive scale and real-time data ingestion.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Network Traffic Analysis & OSINT Dark Web Investigation</h3><span class="right">Digital Forensics</span>
+    <div class="section" style="border-top: none; padding-top: 0; margin-top: -8px;">
+        <div class="left-col">
         </div>
-        <div class="desc">Network forensics via Wireshark and OSINT tracking across social platforms and Tor Network
-            (.onion domains).</div>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">MongTa — Eye Disease Detection</div>
+                    <div class="entry-date" style="margin-top:0; font-weight:500; font-style:italic">Software Eng. · Aug — Nov 2023</div>
+                </div>
+                <ul class="desc-list">
+                    <li>Developed an advanced computer vision application capable of detecting ocular diseases (cataracts, styes, conjunctivitis, pterygium) with high accuracy using fine-tuned YOLOv11 and Vision Transformers.</li>
+                    <li>Architected a highly responsive server framework to ensure fast data transmission and immediate diagnostic feedback to the frontend client.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Melody Music — Music Streaming Platform</h3><span class="right">Full-Stack</span>
-        </div>
-        <div class="desc">Music streaming website using TypeScript, Next.js, Tailwind CSS, Supabase, deployed with
-            Vercel.</div>
-    </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Biz NA — Real-Time Asset Calculator</h3><span class="right">OOP</span>
-        </div>
-        <div class="desc">Web application that tracks asset portfolios in real-time — cryptocurrencies, stocks, cash,
-            and other volatile assets.</div>
-    </div>
 
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Chefbot — Voice-Interactive Menu Assistant</h3><span class="right">Programming</span>
-        </div>
-        <div class="desc">Voice-interactive program providing personalized menu suggestions through speech recognition
-            and intelligent recommendation logic.</div>
-    </div>
 
-    <!-- RELEVANT COURSEWORK -->
-    <h2>Relevant Coursework</h2>
-    <div class="course-grid">
-        <div class="course-cat">
-            <h4>AI & Data</h4>
-            <ul>
-                <li>Artificial Intelligence and Machine Learning</li>
-                <li>Natural Language Processing and Generation</li>
-                <li>Computational Intelligence</li>
-                <li>Data Science and Data Engineering</li>
-                <li>Big Data Analytics</li>
-            </ul>
-        </div>
-        <div class="course-cat">
-            <h4>Software & Web</h4>
-            <ul>
-                <li>Computer Programming</li>
-                <li>Object-Oriented Programming</li>
-                <li>Web Programming</li>
-                <li>Software Engineering</li>
-            </ul>
-        </div>
-        <div class="course-cat">
-            <h4>Systems & Networks</h4>
-            <ul>
-                <li>Operating Systems</li>
-                <li>Computer Architecture and Organization</li>
-                <li>Network Computing</li>
-                <li>Blockchain Technology</li>
-            </ul>
-        </div>
-        <div class="course-cat">
-            <h4>Math & Foundations</h4>
-            <ul>
-                <li>Discrete Mathematics</li>
-                <li>Linear Algebra for Computing</li>
-                <li>Probability and Statistics</li>
-                <li>Data Structures and Algorithms</li>
-                <li>Database Systems</li>
-            </ul>
+    <!-- SKILLS SECTION -->
+    <div class="section">
+        <div class="section-title">SKILLS</div>
+        <div class="section-content">
+            <div class="skills-grid">
+                <div class="skill-item"><span class="skill-name">AI / Machine Learning</span><span class="skill-details">PyTorch, TensorFlow, LLMs, RAG, Transformers, CNN/LSTM</span></div>
+                <div class="skill-item"><span class="skill-name">Programming</span><span class="skill-details">Python, SQL, C++, Java, Dart</span></div>
+                
+                <div class="skill-item"><span class="skill-name">Data Sci. & Eng.</span><span class="skill-details">Apache Spark, Pandas, Scikit-learn, XGBoost</span></div>
+                <div class="skill-item"><span class="skill-name">Backend & APIs</span><span class="skill-details">Django, FastAPI, Node.js</span></div>
+                
+                <div class="skill-item"><span class="skill-name">DevOps & Database</span><span class="skill-details">Docker, Kubernetes, PostgreSQL, Redis, MongoDB</span></div>
+                <div class="skill-item"><span class="skill-name">Frontend & Mobile</span><span class="skill-details">Next.js, React, Flutter, Swift</span></div>
+            </div>
         </div>
     </div>
 
     <!-- AWARDS -->
-    <h2>Competitions & Awards</h2>
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Winner — Innovation for KMUTT Sustainability</h3><span class="right">2023</span>
-        </div>
-        <div class="company">Playground 2023</div>
-    </div>
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Honorable Mention — Research to Market</h3><span class="right">2023</span>
-        </div>
-        <div class="company">Big's SEED Talent Camp 2023</div>
-    </div>
-    <div class="entry">
-        <div class="entry-header">
-            <h3>Regional Qualifiers</h3><span class="right">2023</span>
-        </div>
-        <div class="company">Startup Thailand League 2023</div>
-    </div>
-
-    <!-- INTERESTED POSITIONS -->
-    <h2>Career Interests</h2>
-    <div class="pos-grid">
-        <div class="pos-card">
-            <h4>🤖 AI Engineer</h4>
-            <p>Deep learning, LLM/RAG agents, MLOps, model deployment</p>
-        </div>
-        <div class="pos-card">
-            <h4>🛡️ AI Cybersecurity Engineer</h4>
-            <p>AI threat detection, SIEM & SOAR, malware analysis, penetration testing</p>
-        </div>
-        <div class="pos-card">
-            <h4>📊 Data Scientist</h4>
-            <p>Statistical modeling, feature engineering, predictive analytics</p>
-        </div>
-        <div class="pos-card">
-            <h4>⚙️ Data Engineer</h4>
-            <p>ETL pipelines, data warehousing, Apache Spark, cloud infrastructure</p>
+    <div class="section">
+        <div class="section-title">AWARDS</div>
+        <div class="section-content">
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">Winner — Innovation for KMUTT Sustainability</div>
+                    <div class="location">Playground 2023</div>
+                </div>
+            </div>
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="job-title">Honorable Mention — Research to Market</div>
+                    <div class="location">SEED Talent Camp 2023</div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -66,9 +66,6 @@ export default function Hero() {
                     <a href="#contact" className="btn-secondary">
                         Get in Touch
                     </a>
-                    <a href="/Dollatham_Resume.pdf" download className="btn-secondary">
-                        <FiDownload /> Resume
-                    </a>
                     <a href="/Dollatham_CV.pdf" download className="btn-secondary">
                         <FiDownload /> CV
                     </a>
