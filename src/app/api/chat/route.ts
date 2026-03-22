@@ -79,7 +79,7 @@ export async function POST(req: Request) {
     try {
         const { messages } = await req.json();
 
-        const result = streamText({
+        const result = await streamText({
             model: typhoon.chat('typhoon-v2.5-30b-a3b-instruct'),
             system: SYSTEM_PROMPT,
             messages,
@@ -90,6 +90,7 @@ export async function POST(req: Request) {
         return result.toTextStreamResponse();
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Typhoon API Error:', error); // Add log for Vercel
         const isRateLimit = message.includes('quota') || message.includes('429') || message.includes('RESOURCE_EXHAUSTED');
         return new Response(
             isRateLimit
