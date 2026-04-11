@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import SectionWrapper from './SectionWrapper';
 import { FiExternalLink } from 'react-icons/fi';
+import { useLanguage } from '@/context/LanguageContext';
 
 const publications = [
     {
@@ -28,15 +29,16 @@ const cardAnim = {
 
 export default function Publications() {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+    const { t } = useLanguage();
 
     return (
         <SectionWrapper id="publications" className="publications">
             <div className="container">
                 <h2 className="section-title">
-                    <span className="gradient-text">Publications</span>
+                    <span className="gradient-text">{t('pub.title')}</span>
                 </h2>
                 <p className="section-subtitle">
-                    Peer-reviewed research published in international conferences
+                    {t('pub.subtitle')}
                 </p>
 
                 <div ref={ref}>
@@ -73,7 +75,7 @@ export default function Publications() {
                                 rel="noopener noreferrer"
                                 className="btn-primary publication-link"
                             >
-                                View Paper <FiExternalLink />
+                                {t('pub.viewPaper')} <FiExternalLink />
                             </a>
                         </motion.div>
                     ))}

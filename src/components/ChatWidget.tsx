@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface ChatMessage {
     id: string;
@@ -10,17 +11,27 @@ interface ChatMessage {
 }
 
 export default function ChatWidget() {
+    const { t } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([
         {
             id: 'welcome',
             role: 'assistant',
-            content: 'สวัสดีครับ! 👋 ผมเป็น AI Assistant ของ Dollatham ยินดีตอบคำถามเกี่ยวกับประสบการณ์ ทักษะ โปรเจกต์ และข้อมูลอื่นๆ ครับ',
+            content: t('chat.welcome'),
         },
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Update welcome message when language changes
+    useEffect(() => {
+        setMessages((prev) =>
+            prev.map((m) =>
+                m.id === 'welcome' ? { ...m, content: t('chat.welcome') } : m
+            )
+        );
+    }, [t]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -84,7 +95,7 @@ export default function ChatWidget() {
                 setMessages((prev) =>
                     prev.map((m) =>
                         m.id === assistantId
-                            ? { ...m, content: 'ขออภัยครับ ไม่ได้รับการตอบกลับจาก AI กรุณาลองใหม่อีกครั้ง 🙏' }
+                            ? { ...m, content: t('chat.error.empty') }
                             : m
                     )
                 );
@@ -98,8 +109,8 @@ export default function ChatWidget() {
                     id: (Date.now() + 2).toString(),
                     role: 'assistant',
                     content: isQuota
-                        ? 'ขออภัยครับ ขณะนี้ระบบ AI ถูกใช้งานเกินจำนวนครั้งที่กำหนด กรุณาลองใหม่ในอีก 1-2 นาที 🙏'
-                        : 'ขอโทษครับ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง 🙏',
+                        ? t('chat.error.quota')
+                        : t('chat.error.general'),
                 },
             ]);
         } finally {
@@ -167,7 +178,7 @@ export default function ChatWidget() {
                                 className="chat-input"
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                placeholder="ถามอะไรก็ได้เกี่ยวกับ Dollatham..."
+                                placeholder={t('chat.placeholder')}
                                 disabled={isLoading}
                             />
                             <button className="chat-send" type="submit" disabled={isLoading || !input.trim()}>

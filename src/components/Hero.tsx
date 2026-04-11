@@ -3,10 +3,13 @@
 import { motion } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import { FiDownload, FiArrowRight } from 'react-icons/fi';
+import { useLanguage } from '@/context/LanguageContext';
 
 const ParticleBackground = dynamic(() => import('./ParticleBackground'), { ssr: false });
 
 export default function Hero() {
+    const { t } = useLanguage();
+
     return (
         <section className="hero" id="hero">
             <ParticleBackground />
@@ -23,7 +26,7 @@ export default function Hero() {
                     transition={{ duration: 0.5, delay: 0.5 }}
                 >
                     <span className="hero-badge-dot" />
-                    Open to work
+                    {t('hero.badge')}
                 </motion.div>
 
                 <motion.h1
@@ -32,7 +35,7 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                    Hi, I&apos;m <span className="gradient-text">Dollatham</span>
+                    {t('hero.greeting')} <span className="gradient-text">Dollatham</span>
                 </motion.h1>
 
                 <motion.p
@@ -41,7 +44,7 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
                 >
-                    AI Engineer & Full-Stack Developer
+                    {t('hero.title')}
                 </motion.p>
 
                 <motion.p
@@ -50,8 +53,7 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.8 }}
                 >
-                    Passionate about building intelligent systems with Machine Learning,
-                    Deep Learning, and Computer Vision — from model development to production deployment.
+                    {t('hero.description')}
                 </motion.p>
 
                 <motion.div
@@ -61,10 +63,10 @@ export default function Hero() {
                     transition={{ duration: 0.6, delay: 1 }}
                 >
                     <a href="#projects" className="btn-primary">
-                        View Projects <FiArrowRight />
+                        {t('hero.viewProjects')} <FiArrowRight />
                     </a>
                     <a href="#contact" className="btn-secondary">
-                        Get in Touch
+                        {t('hero.getInTouch')}
                     </a>
                     <a href="/Dollatham_CV.pdf" download className="btn-secondary">
                         <FiDownload /> CV
@@ -78,7 +80,7 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1.5 }}
             >
-                <span>Scroll</span>
+                <span>{t('hero.scroll')}</span>
                 <div className="scroll-line" />
             </motion.div>
         </section>

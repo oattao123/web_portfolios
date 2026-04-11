@@ -1,17 +1,20 @@
 'use client';
 
 import SectionWrapper from './SectionWrapper';
-import { FiMail, FiPhone, FiGithub, FiMapPin, FiSend } from 'react-icons/fi';
+import { FiMail, FiPhone, FiGithub, FiMapPin } from 'react-icons/fi';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Contact() {
+    const { t } = useLanguage();
+
     return (
         <SectionWrapper id="contact" className="contact">
             <div className="container">
                 <h2 className="section-title">
-                    Get in <span className="gradient-text">Touch</span>
+                    {t('contact.title1')} <span className="gradient-text">{t('contact.title2')}</span>
                 </h2>
                 <p className="section-subtitle">
-                    Have a project in mind or want to collaborate? Let&apos;s connect!
+                    {t('contact.subtitle')}
                 </p>
 
                 <div className="contact-grid" style={{ gridTemplateColumns: '1fr', maxWidth: '500px' }}>
@@ -21,7 +24,7 @@ export default function Contact() {
                                 <FiMail />
                             </div>
                             <div>
-                                <p className="contact-label">Email</p>
+                                <p className="contact-label">{t('contact.email')}</p>
                                 <p className="contact-value">dceriythrrmkic@gmail.com</p>
                             </div>
                         </a>
@@ -31,7 +34,7 @@ export default function Contact() {
                                 <FiPhone />
                             </div>
                             <div>
-                                <p className="contact-label">Phone</p>
+                                <p className="contact-label">{t('contact.phone')}</p>
                                 <p className="contact-value">064-553-6245</p>
                             </div>
                         </a>
@@ -41,7 +44,7 @@ export default function Contact() {
                                 <FiGithub />
                             </div>
                             <div>
-                                <p className="contact-label">GitHub</p>
+                                <p className="contact-label">{t('contact.github')}</p>
                                 <p className="contact-value">github.com/oattao123</p>
                             </div>
                         </a>
@@ -51,8 +54,8 @@ export default function Contact() {
                                 <FiMapPin />
                             </div>
                             <div>
-                                <p className="contact-label">Location</p>
-                                <p className="contact-value">Phutthabucha 48, Bang Mot, Thung Khru, Bangkok 10140</p>
+                                <p className="contact-label">{t('contact.location')}</p>
+                                <p className="contact-value">{t('contact.address')}</p>
                             </div>
                         </div>
                     </div>

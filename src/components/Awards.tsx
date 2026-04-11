@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import SectionWrapper from './SectionWrapper';
+import { useLanguage } from '@/context/LanguageContext';
 
 const awards = [
     {
@@ -61,15 +62,16 @@ const cardAnim = {
 
 export default function Awards() {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+    const { t } = useLanguage();
 
     return (
         <SectionWrapper id="awards">
             <div className="container">
                 <h2 className="section-title">
-                    Competitions & <span className="gradient-text">Prizes</span>
+                    {t('awards.title1')} <span className="gradient-text">{t('awards.title2')}</span>
                 </h2>
                 <p className="section-subtitle">
-                    Achievements and recognitions from competitions
+                    {t('awards.subtitle')}
                 </p>
 
                 <motion.div

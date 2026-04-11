@@ -1,16 +1,19 @@
 'use client';
 
 import SectionWrapper from './SectionWrapper';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Experience() {
+    const { t } = useLanguage();
+
     return (
         <SectionWrapper id="experience" className="experience">
             <div className="container">
                 <h2 className="section-title">
-                    Work <span className="gradient-text">Experience</span>
+                    {t('exp.title1')} <span className="gradient-text">{t('exp.title2')}</span>
                 </h2>
                 <p className="section-subtitle">
-                    Professional experience in development and AI research
+                    {t('exp.subtitle')}
                 </p>
 
                 <div className="timeline">
@@ -18,10 +21,10 @@ export default function Experience() {
                         <div className="timeline-dot" />
                         <div className="timeline-date">2025</div>
                         <div className="timeline-card">
-                            <h3 className="timeline-title">AI Cybersecurity Intern</h3>
-                            <p className="timeline-company">Datafarm Co., Ltd.</p>
+                            <h3 className="timeline-title">{t('exp.job1.title')}</h3>
+                            <p className="timeline-company">{t('exp.job1.company')}</p>
                             <p className="timeline-description">
-                                Gained hands-on experience applying AI and machine learning to cybersecurity operations. Developed AI-driven threat detection pipelines, automated vulnerability scanning with intelligent triage, and built models for security log anomaly detection. Participated in penetration testing, digital forensics, and leveraged LLM-based tools for accelerated OSINT and incident response.
+                                {t('exp.job1.desc')}
                             </p>
                             <div className="timeline-tech">
                                 <span className="timeline-tech-tag">AI Threat Detection</span>
@@ -38,12 +41,10 @@ export default function Experience() {
                         <div className="timeline-dot" />
                         <div className="timeline-date">2024</div>
                         <div className="timeline-card">
-                            <h3 className="timeline-title">AI Trading Intern</h3>
-                            <p className="timeline-company">Pi Securities Public Company Limited</p>
+                            <h3 className="timeline-title">{t('exp.job2.title')}</h3>
+                            <p className="timeline-company">{t('exp.job2.company')}</p>
                             <p className="timeline-description">
-                                Incoming internship role focused on Artificial Intelligence for Trading. Will be
-                                applying machine learning, deep learning, and data science techniques to develop
-                                intelligent trading systems, analyze financial market data, and optimize trading strategies.
+                                {t('exp.job2.desc')}
                             </p>
                             <div className="timeline-tech">
                                 <span className="timeline-tech-tag">AI Trading</span>
@@ -58,14 +59,10 @@ export default function Experience() {
                         <div className="timeline-dot" />
                         <div className="timeline-date">2023</div>
                         <div className="timeline-card">
-                            <h3 className="timeline-title">Part-time Developer</h3>
-                            <p className="timeline-company">Research Center of KMUTT</p>
+                            <h3 className="timeline-title">{t('exp.job3.title')}</h3>
+                            <p className="timeline-company">{t('exp.job3.company')}</p>
                             <p className="timeline-description">
-                                Worked on a research project on vehicle accidents that utilizes AI technology
-                                to calculate and assess vehicle damage. The obtained data is sent to insurance
-                                companies for cost estimation and the claims process. I was responsible for
-                                developing the cross-platform application using Flutter for both iOS and Android,
-                                ensuring seamless integration with the AI processing system.
+                                {t('exp.job3.desc')}
                             </p>
                             <div className="timeline-tech">
                                 <span className="timeline-tech-tag">Flutter</span>

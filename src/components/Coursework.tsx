@@ -3,59 +3,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import SectionWrapper from './SectionWrapper';
-
-const courseCategories = [
-    {
-        category: 'AI & Data',
-        icon: '🤖',
-        color: 'rgba(124, 58, 237, 0.15)',
-        borderColor: 'rgba(124, 58, 237, 0.3)',
-        courses: [
-            'Artificial Intelligence and Machine Learning',
-            'Natural Language Processing and Generation',
-            'Computational Intelligence',
-            'Data Science and Data Engineering',
-            'Big Data Analytics',
-        ],
-    },
-    {
-        category: 'Software & Web',
-        icon: '💻',
-        color: 'rgba(6, 182, 212, 0.15)',
-        borderColor: 'rgba(6, 182, 212, 0.3)',
-        courses: [
-            'Computer Programming',
-            'Object-Oriented Programming',
-            'Web Programming ',
-            'Software Engineering ',
-        ],
-    },
-    {
-        category: 'Systems & Networks',
-        icon: '🔧',
-        color: 'rgba(236, 72, 153, 0.15)',
-        borderColor: 'rgba(236, 72, 153, 0.3)',
-        courses: [
-            'Operating Systems',
-            'Computer Architecture and Organization',
-            'Network Computing',
-            'Blockchain Technology',
-        ],
-    },
-    {
-        category: 'Math & Foundations',
-        icon: '📐',
-        color: 'rgba(16, 185, 129, 0.15)',
-        borderColor: 'rgba(16, 185, 129, 0.3)',
-        courses: [
-            'Discrete Mathematics',
-            'Linear Algebra for Computing',
-            'Probability and Statistics',
-            'Data Structures and Algorithms',
-            'Database Systems',
-        ],
-    },
-];
+import { useLanguage } from '@/context/LanguageContext';
 
 const container = {
     hidden: {},
@@ -71,15 +19,69 @@ const cardAnim = {
 
 export default function Coursework() {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+    const { t } = useLanguage();
+
+    const courseCategories = [
+        {
+            categoryKey: 'cw.cat.ai',
+            icon: '🤖',
+            color: 'rgba(124, 58, 237, 0.15)',
+            borderColor: 'rgba(124, 58, 237, 0.3)',
+            courses: [
+                'Artificial Intelligence and Machine Learning',
+                'Natural Language Processing and Generation',
+                'Computational Intelligence',
+                'Data Science and Data Engineering',
+                'Big Data Analytics',
+            ],
+        },
+        {
+            categoryKey: 'cw.cat.software',
+            icon: '💻',
+            color: 'rgba(6, 182, 212, 0.15)',
+            borderColor: 'rgba(6, 182, 212, 0.3)',
+            courses: [
+                'Computer Programming',
+                'Object-Oriented Programming',
+                'Web Programming ',
+                'Software Engineering ',
+            ],
+        },
+        {
+            categoryKey: 'cw.cat.systems',
+            icon: '🔧',
+            color: 'rgba(236, 72, 153, 0.15)',
+            borderColor: 'rgba(236, 72, 153, 0.3)',
+            courses: [
+                'Operating Systems',
+                'Computer Architecture and Organization',
+                'Network Computing',
+                'Blockchain Technology',
+            ],
+        },
+        {
+            categoryKey: 'cw.cat.math',
+            icon: '📐',
+            color: 'rgba(16, 185, 129, 0.15)',
+            borderColor: 'rgba(16, 185, 129, 0.3)',
+            courses: [
+                'Discrete Mathematics',
+                'Linear Algebra for Computing',
+                'Probability and Statistics',
+                'Data Structures and Algorithms',
+                'Database Systems',
+            ],
+        },
+    ];
 
     return (
         <SectionWrapper id="coursework">
             <div className="container">
                 <h2 className="section-title">
-                    Relevant <span className="gradient-text">Coursework</span>
+                    {t('cw.title1')} <span className="gradient-text">{t('cw.title2')}</span>
                 </h2>
                 <p className="section-subtitle">
-                    Key academic courses that built my technical foundation
+                    {t('cw.subtitle')}
                 </p>
 
                 <motion.div
@@ -90,10 +92,10 @@ export default function Coursework() {
                     animate={inView ? 'visible' : 'hidden'}
                 >
                     {courseCategories.map((cat) => (
-                        <motion.div key={cat.category} className="coursework-card" variants={cardAnim}>
+                        <motion.div key={cat.categoryKey} className="coursework-card" variants={cardAnim}>
                             <div className="coursework-card-header">
                                 <span className="coursework-icon">{cat.icon}</span>
-                                <h3 className="coursework-category">{cat.category}</h3>
+                                <h3 className="coursework-category">{t(cat.categoryKey)}</h3>
                             </div>
                             <ul className="coursework-list">
                                 {cat.courses.map((course) => (

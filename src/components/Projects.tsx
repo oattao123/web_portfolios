@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import SectionWrapper from './SectionWrapper';
+import { FiGithub } from 'react-icons/fi';
+import { useLanguage } from '@/context/LanguageContext';
 
 const projects = [
     {
@@ -11,19 +13,18 @@ const projects = [
         type: 'Cybersecurity / AI Project',
         title: 'GitHub OSINT & Secret‑Scanning Engine',
         period: '2024',
-        description:
-            'A high‑throughput OSINT engine scanning public GitHub repositories at 200 repos/min to automatically detect hard‑coded secrets. Features on‑premise LLaMA‑based AI classification, async networking, Redis caching, ChromaDB vector indexing, and real‑time metrics, delivering a production‑ready Docker solution.',
+        descKey: 'proj.osint.desc',
         tech: ['Python', 'LLaMA', 'Redis', 'ChromaDB', 'Docker', 'Asyncio', 'OSINT'],
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
         emoji: '🕵️‍♂️',
+        github: 'https://github.com/oattao123/test_osint',
     },
     {
         category: 'Cybersecurity',
         type: 'Cybersecurity Project',
         title: 'Penetration Testing & Vulnerability Assessment',
         period: '2024',
-        description:
-            'Conducted comprehensive penetration testing on servers and websites. Identified vulnerabilities and system weaknesses, and generated risk assessment reports following international standards. Employed various offensive security tools to ensure robust system defense.',
+        descKey: 'proj.pentest.desc',
         tech: ['Nmap', 'Metasploit', 'SQLMap', 'Nikto', 'Penetration Testing'],
         gradient: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
         emoji: '🛡️',
@@ -33,8 +34,7 @@ const projects = [
         type: 'Cybersecurity Competition',
         title: 'Wongyos CTF — Ethical Hacking Challenges',
         period: '2024',
-        description:
-            'Solved diverse cybersecurity challenges encompassing Reverse Engineering, Cryptography, Digital Forensics, Web Exploitation, System Exploitation, and Programming for Ethical Hacking. Utilized binary analysis, system structure decoupling, and custom Python exploit scripts.',
+        descKey: 'proj.ctf.desc',
         tech: ['Reverse Engineering', 'Cryptography', 'Digital Forensics', 'Binary Analysis', 'CTF'],
         gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
         emoji: '🚩',
@@ -44,8 +44,7 @@ const projects = [
         type: 'Malware Analysis Project',
         title: 'University Network Malware Analysis & Forensics',
         period: '2024',
-        description:
-            'Detected and analyzed backdoor malware embedded within the university\'s IT systems. Performed rigorous binary analysis using IDA Pro, Ghidra, and HxD to extract hardcoded credentials and uncover embedded unauthorized authentication mechanisms.',
+        descKey: 'proj.malware.desc',
         tech: ['IDA Pro', 'Ghidra', 'HxD', 'Malware Analysis', 'Cybersecurity'],
         gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
         emoji: '🦠',
@@ -55,8 +54,7 @@ const projects = [
         type: 'Digital Forensics Project',
         title: 'Network Traffic Analysis & OSINT Dark Web Investigation',
         period: '2024',
-        description:
-            'Conducted network forensics by intercepting and analyzing internal traffic via Wireshark to identify suspect behaviors. Tracked subjects across social platforms and Tor Network (.onion domains) analyzing emails, transaction routes, and PII.',
+        descKey: 'proj.forensics.desc',
         tech: ['Wireshark', 'Sherlock', 'Tor Network', 'OSINT', 'Network Forensics'],
         gradient: 'linear-gradient(135deg, #10b981 0%, #047857 100%)',
         emoji: '🕵️‍♂️',
@@ -66,8 +64,7 @@ const projects = [
         type: 'Capstone Project',
         title: 'TrendReversal-AI — Market Trend Reversal System',
         period: '2026',
-        description:
-            'End-to-end machine learning system predicting financial market trend reversals across 5 global markets (US, UK, Thai, Gold, Bitcoin). Features deep learning models (LSTM, CNN, Transformer), regime-switching strategy via HMM/GMM, multi-objective parameter optimization (NSGA-II), hybrid LLM agent with RAG, and an interactive dashboard.',
+        descKey: 'proj.trendreversal.desc',
         tech: ['Python', 'TensorFlow', 'LSTM', 'Transformers', 'HMM/GMM', 'NSGA-II', 'LLM', 'RAG'],
         gradient: 'linear-gradient(135deg, #10b981 0%, #06b6d4 100%)',
         emoji: '🤖',
@@ -77,19 +74,18 @@ const projects = [
         type: 'Software Engineering Project',
         title: 'MongTa — Eye Disease Detection',
         period: 'Nov — Dec 2024',
-        description:
-            'An application that detects cataracts, styes, conjunctivitis, and pterygium, providing convenient services for users to contact doctors. I prepared data and uploaded it to Roboflow, performed data engineering and data science tasks, developed multiple models (YOLOv11, Transformers) to evaluate and compare performance, and set up a server for data transmission to the frontend.',
+        descKey: 'proj.mongta.desc',
         tech: ['YOLOv11', 'Transformers', 'Roboflow', 'Python', 'Data Engineering', 'Computer Vision'],
         gradient: 'linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)',
         emoji: '👁️',
+        github: 'https://github.com/oattao123/MongTa',
     },
     {
         category: 'AI',
         type: 'DS & DE Project',
         title: 'SAR to Multispectral Imagery — GANs & Vision Transformers',
         period: 'Oct 2024 — Present',
-        description:
-            'Utilizes the Pix2Pix model to enhance satellite image resolution and convert black-and-white images to color. Performed comprehensive data engineering: preparation, cleaning, analysis, and feature extraction. Developed and compared models like SRGAN and SwinUNet, with hyperparameter tuning to find optimal values.',
+        descKey: 'proj.sar.desc',
         tech: ['Pix2Pix', 'SRGAN', 'SwinUNet', 'GANs', 'Vision Transformers', 'Python'],
         gradient: 'linear-gradient(135deg, #ec4899 0%, #7c3aed 100%)',
         emoji: '🛰️',
@@ -99,30 +95,62 @@ const projects = [
         type: 'Capstone Project',
         title: 'Automated Trading Bot — ML for Crypto Prediction',
         period: 'March — May 2024',
-        description:
-            'Develops trading bots using machine learning to predict Bitcoin trends and execute real-time trades, integrated with Binance via a web application. Prepared data and indicators, used Decision Tree and Hidden Markov Model, selected features using Gini Index and Entropy, and calculated state transition probabilities with the Forward-Backward Algorithm.',
+        descKey: 'proj.trading.desc',
         tech: ['Decision Tree', 'HMM', 'Binance API', 'Python', 'ML', 'Feature Engineering'],
         gradient: 'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)',
         emoji: '📈',
+        github: 'https://github.com/oattao123/ml_trading',
+    },
+    {
+        category: 'AI',
+        type: 'Neural Style Transfer Project',
+        title: 'Neural Style Transfer — Artistic Image Generation',
+        period: '2025',
+        descKey: 'proj.nst.desc',
+        tech: ['Python', 'Deep Learning', 'CNN', 'Transfer Learning', 'Jupyter'],
+        gradient: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+        emoji: '🎨',
+        github: 'https://github.com/oattao123/nst',
+    },
+    {
+        category: 'AI',
+        type: 'Quantitative Finance Project',
+        title: 'Sector-Constrained Portfolio Optimization',
+        period: '2026',
+        descKey: 'proj.portfolio.desc',
+        tech: ['Python', 'PSO', 'Differential Evolution', 'Markowitz', 'yfinance', 'scipy', 'Jupyter'],
+        gradient: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
+        emoji: '📊',
+        github: 'https://github.com/oattao123/sector_constrained_portfolio_executed',
     },
     {
         category: 'Other',
         type: 'Web Programming & Database Project',
         title: 'Melody Music — Music Streaming Platform',
         period: 'April — May 2024',
-        description:
-            'A music streaming website for uploading and listening to songs online, accessible from laptops and mobile devices. Worked as a Fullstack Developer using Tailwind CSS for frontend, TypeScript for backend, deployed with Vercel, and used Supabase for data storage (images, songs, content).',
+        descKey: 'proj.melody.desc',
         tech: ['TypeScript', 'Tailwind CSS', 'Supabase', 'Vercel', 'Next.js', 'Full-Stack'],
         gradient: 'linear-gradient(135deg, #06b6d4 0%, #10b981 100%)',
         emoji: '🎵',
+        github: 'https://github.com/oattao123/Melody_music',
+    },
+    {
+        category: 'Other',
+        type: 'Mobile Application Project',
+        title: 'Basketball Queue Manager — React Native App',
+        period: '2026',
+        descKey: 'proj.basketball.desc',
+        tech: ['React Native', 'Expo SDK 54', 'React 19', 'JavaScript', 'Vercel', 'Mobile App'],
+        gradient: 'linear-gradient(135deg, #f97316 0%, #ef4444 100%)',
+        emoji: '🏀',
+        github: 'https://github.com/oattao123/basketball_quene',
     },
     {
         category: 'Other',
         type: 'Object-Oriented Programming Project',
         title: 'Biz NA — Real-Time Asset Calculator',
         period: '',
-        description:
-            'A web application that calculates and tracks asset portfolios in real-time, supporting cryptocurrencies, stocks, cash, and other volatile assets. Features live price feeds, portfolio valuation, and dynamic asset allocation visualization.',
+        descKey: 'proj.bizna.desc',
         tech: ['OOP', 'JavaScript', 'REST API', 'Real-Time Data', 'Web Development'],
         gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
         emoji: '💰',
@@ -132,8 +160,7 @@ const projects = [
         type: 'Computer Programming Project',
         title: 'Chefbot — Voice-Interactive Menu Assistant',
         period: '',
-        description:
-            'A voice-interactive program that provides personalized menu suggestions and calculates menu items. Users can create custom menus based on their preferences through natural voice commands, combining speech recognition with intelligent recommendation logic.',
+        descKey: 'proj.chefbot.desc',
         tech: ['Python', 'Speech Recognition', 'NLP', 'Voice Interface', 'Algorithm Design'],
         gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
         emoji: '👨‍🍳',
@@ -143,8 +170,7 @@ const projects = [
         type: 'Blockchain Technology Project',
         title: 'oatCoinToken & ShopCoin — Custom Crypto Tokens',
         period: '',
-        description:
-            'Designed and deployed two custom cryptocurrency tokens (oatCoinToken and ShopCoin) using Solidity smart contracts on Remix IDE. Implemented standard ERC-20 token functionality including minting, transfers, and balance management. Features QR Code integration for easy token addition to wallets.',
+        descKey: 'proj.oatcoin.desc',
         tech: ['Solidity', 'Remix IDE', 'ERC-20', 'Blockchain', 'Smart Contracts', 'Ethereum'],
         gradient: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
         emoji: '🪙',
@@ -154,8 +180,7 @@ const projects = [
         type: 'AI Full-Stack Project',
         title: 'LINE Receipt & Stock Management System',
         period: '',
-        description:
-            'Intelligent LINE Bot for sales and inventory management with AI OCR for automatic bank slip reading. Features image classification (QR / slip / product), multi-sale conversation flow via state machine, QR code product scanning, real-time LINE push notifications, REST API, and a web dashboard with daily/monthly revenue analytics and top product insights.',
+        descKey: 'proj.linereceipt.desc',
         tech: ['Node.js', 'Express', 'LINE Bot SDK', 'AI OCR', 'SQLite', 'REST API', 'Dashboard'],
         gradient: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
         emoji: '🧾',
@@ -177,8 +202,14 @@ const cardAnim = {
 export default function Projects() {
     const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 });
     const [filter, setFilter] = useState('All');
+    const { t } = useLanguage();
 
-    const categories = ['All', 'AI', 'Cybersecurity', 'Other'];
+    const categories = [
+        { key: 'All', labelKey: 'proj.filter.all' },
+        { key: 'AI', labelKey: 'proj.filter.ai' },
+        { key: 'Cybersecurity', labelKey: 'proj.filter.cyber' },
+        { key: 'Other', labelKey: 'proj.filter.other' },
+    ];
 
     const filteredProjects = projects.filter(
         (project) => filter === 'All' || project.category === filter
@@ -188,20 +219,20 @@ export default function Projects() {
         <SectionWrapper id="projects">
             <div className="container">
                 <h2 className="section-title">
-                    Academic <span className="gradient-text">Projects</span>
+                    {t('proj.title1')} <span className="gradient-text">{t('proj.title2')}</span>
                 </h2>
                 <p className="section-subtitle">
-                    AI, machine learning, and full-stack projects built during my studies
+                    {t('proj.subtitle')}
                 </p>
 
                 <div className="project-filters">
                     {categories.map((cat) => (
                         <button
-                            key={cat}
-                            className={`filter-btn ${filter === cat ? 'active' : ''}`}
-                            onClick={() => setFilter(cat)}
+                            key={cat.key}
+                            className={`filter-btn ${filter === cat.key ? 'active' : ''}`}
+                            onClick={() => setFilter(cat.key)}
                         >
-                            {cat}
+                            {t(cat.labelKey)}
                         </button>
                     ))}
                 </div>
@@ -236,14 +267,24 @@ export default function Projects() {
                                 <div className="project-card-body">
                                     <p className="project-card-type">{project.type}</p>
                                     <h3 className="project-card-title">{project.title}</h3>
-                                    <p className="project-card-description">{project.description}</p>
+                                    <p className="project-card-description">{t(project.descKey)}</p>
                                     <div className="project-card-tech">
-                                        {project.tech.map((t) => (
-                                            <span key={t} className="project-tech-tag">
-                                                {t}
+                                        {project.tech.map((techItem) => (
+                                            <span key={techItem} className="project-tech-tag">
+                                                {techItem}
                                             </span>
                                         ))}
                                     </div>
+                                    {project.github && (
+                                        <a
+                                            href={project.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="project-github-link"
+                                        >
+                                            <FiGithub /> {t('proj.viewCode')}
+                                        </a>
+                                    )}
                                 </div>
                             </motion.div>
                         ))}

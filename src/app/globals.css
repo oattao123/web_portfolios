@@ -300,6 +300,54 @@ img {
 }
 
 /* ============================================
+   Language Toggle Button
+   ============================================ */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: 50px;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  letter-spacing: 0.03em;
+  margin-left: 8px;
+}
+
+.lang-toggle:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--accent-violet);
+  color: var(--text-primary);
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.2);
+  transform: translateY(-1px);
+}
+
+.lang-toggle svg {
+  font-size: 1rem;
+  color: var(--accent-cyan);
+  transition: color var(--transition-fast);
+}
+
+.lang-toggle:hover svg {
+  color: var(--accent-violet);
+}
+
+.mobile-lang-toggle {
+  margin-left: 0;
+  margin-bottom: 16px;
+  padding: 12px 24px;
+  font-size: 1rem;
+}
+
+/* ============================================
    Hero Section
    ============================================ */
 .hero {
@@ -885,6 +933,33 @@ img {
   border-radius: 50px;
   font-size: 0.75rem;
   color: var(--accent-violet);
+}
+
+.project-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.project-github-link:hover {
+  background: rgba(124, 58, 237, 0.15);
+  border-color: var(--accent-violet);
+  color: var(--text-primary);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.15);
+}
+
+.project-github-link svg {
+  font-size: 0.95rem;
 }
 
 /* ============================================
@@ -1500,6 +1575,10 @@ img {
 
 @media (max-width: 768px) {
   .navbar-links {
+    display: none;
+  }
+
+  .navbar-inner > .lang-toggle {
     display: none;
   }
 
