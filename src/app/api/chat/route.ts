@@ -1,11 +1,10 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { streamText } from 'ai';
 
 export const maxDuration = 30;
 
-const typhoon = createOpenAI({
+const openrouter = createOpenRouter({
     apiKey: process.env.OPENAI_API_KEY,
-    baseURL: process.env.OPENAI_BASE_URL || 'https://api.opentyphoon.ai/v1',
 });
 
 const SYSTEM_PROMPT = `You are a friendly AI assistant on Dollatham Charoenthammakit's portfolio website. Answer questions about Dollatham based on the information below. Be concise, helpful, and professional. If asked something not covered, politely say you only know about Dollatham's portfolio. Reply in the same language the user uses (Thai or English).
@@ -84,7 +83,7 @@ export async function POST(req: Request) {
         }
 
         const result = await streamText({
-            model: typhoon.chat('typhoon-v2.5-30b-a3b-instruct'),
+            model: openrouter.chat('google/gemini-2.5-flash'),
             system: SYSTEM_PROMPT,
             messages,
             maxRetries: 1,
@@ -94,7 +93,7 @@ export async function POST(req: Request) {
         return result.toTextStreamResponse();
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        console.error('Typhoon API Error:', error); // Add log for Vercel
+        console.error('OpenRouter API Error:', error); // Add log for Vercel
         const isRateLimit = message.includes('quota') || message.includes('429') || message.includes('RESOURCE_EXHAUSTED');
         return new Response(
             isRateLimit
