@@ -79,6 +79,10 @@ export async function POST(req: Request) {
     try {
         const { messages } = await req.json();
 
+        if (!process.env.OPENAI_API_KEY) {
+            throw new Error('OPENAI_API_KEY environment variable is missing.');
+        }
+
         const result = await streamText({
             model: typhoon.chat('typhoon-v2.5-30b-a3b-instruct'),
             system: SYSTEM_PROMPT,
