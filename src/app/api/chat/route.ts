@@ -5,6 +5,10 @@ export const maxDuration = 30;
 
 const openrouter = createOpenRouter({
     apiKey: process.env.OPENAI_API_KEY,
+    headers: {
+        'HTTP-Referer': 'https://web-portfolios-wook.vercel.app/',
+        'X-Title': 'Dollatham Portfolio Chat',
+    }
 });
 
 const SYSTEM_PROMPT = `You are a friendly AI assistant on Dollatham Charoenthammakit's portfolio website. Answer questions about Dollatham based on the information below. Be concise, helpful, and professional. If asked something not covered, politely say you only know about Dollatham's portfolio. Reply in the same language the user uses (Thai or English).
