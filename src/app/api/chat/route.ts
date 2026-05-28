@@ -83,32 +83,98 @@ export async function POST(req: Request) {
             );
         }
 
-        const openrouter = createOpenRouter({
-            apiKey,
+        // Call OpenRouter API directly for maximum compatibility with Vercel
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
             headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
                 'HTTP-Referer': 'https://web-portfolios-phi.vercel.app/',
                 'X-Title': 'Dollatham Portfolio Chat',
-            }
+            },
+            body: JSON.stringify({
+                model: 'google/gemini-2.5-flash',
+                messages: [
+                    { role: 'system', content: SYSTEM_PROMPT },
+                    ...messages,
+                ],
+                max_tokens: 2048,
+                stream: true,
+            }),
         });
 
-        const result = streamText({
-            model: openrouter.chat('google/gemini-2.5-flash'),
-            system: SYSTEM_PROMPT,
-            messages,
-            maxRetries: 1,
-            maxOutputTokens: 2048,
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('OpenRouter API error:', response.status, errorText);
+            const isRateLimit = response.status === 429;
+            return new Response(
+                isRateLimit
+                    ? 'ขออภัยครับ ขณะนี้ระบบ AI ถูกใช้งานเกินจำนวนที่กำหนด กรุณาลองใหม่ในอีกสักครู่ 🙏'
+                    : 'ขออภัยครับ เกิดข้อผิดพลาดในระบบ กรุณาลองใหม่อีกครั้ง 🙏',
+                { status: isRateLimit ? 429 : 500 }
+            );
+        }
+
+        // Transform SSE stream to plain text stream
+        const encoder = new TextEncoder();
+        const decoder = new TextDecoder();
+
+        const stream = new ReadableStream({
+            async start(controller) {
+                const reader = response.body?.getReader();
+                if (!reader) {
+                    controller.close();
+                    return;
+                }
+
+                let buffer = '';
+
+                try {
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop() || '';
+
+                        for (const line of lines) {
+                            const trimmed = line.trim();
+                            if (!trimmed || !trimmed.startsWith('data: ')) continue;
+                            const data = trimmed.slice(6);
+                            if (data === '[DONE]') continue;
+
+                            try {
+                                const json = JSON.parse(data);
+                                const content = json.choices?.[0]?.delta?.content;
+                                if (content) {
+                                    controller.enqueue(encoder.encode(content));
+                                }
+                            } catch {
+                                // Skip malformed JSON chunks
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error('Stream processing error:', err);
+                } finally {
+                    controller.close();
+                }
+            },
         });
 
-        return result.toTextStreamResponse();
+        return new Response(stream, {
+            headers: {
+                'Content-Type': 'text/plain; charset=utf-8',
+                'Transfer-Encoding': 'chunked',
+            },
+        });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
         console.error('Chat API Error:', message, error);
-        const isRateLimit = message.includes('quota') || message.includes('429') || message.includes('RESOURCE_EXHAUSTED');
         return new Response(
-            isRateLimit
-                ? 'ขออภัยครับ ขณะนี้ระบบ AI ถูกใช้งานเกินจำนวนที่กำหนด กรุณาลองใหม่ในอีกสักครู่ 🙏'
-                : `ขออภัยครับ เกิดข้อผิดพลาดในระบบ กรุณาลองใหม่อีกครั้ง 🙏`,
-            { status: isRateLimit ? 429 : 500 }
+            'ขออภัยครับ เกิดข้อผิดพลาดในระบบ กรุณาลองใหม่อีกครั้ง 🙏',
+            { status: 500 }
         );
     }
 }
