@@ -3,14 +3,6 @@ import { streamText } from 'ai';
 
 export const maxDuration = 30;
 
-const openrouter = createOpenRouter({
-    apiKey: process.env.OPENAI_API_KEY,
-    headers: {
-        'HTTP-Referer': 'https://web-portfolios-wook.vercel.app/',
-        'X-Title': 'Dollatham Portfolio Chat',
-    }
-});
-
 const SYSTEM_PROMPT = `You are a friendly AI assistant on Dollatham Charoenthammakit's portfolio website. Answer questions about Dollatham based on the information below. Be concise, helpful, and professional. If asked something not covered, politely say you only know about Dollatham's portfolio. Reply in the same language the user uses (Thai or English).
 
 === PERSONAL INFO ===
@@ -82,11 +74,24 @@ export async function POST(req: Request) {
     try {
         const { messages } = await req.json();
 
-        if (!process.env.OPENAI_API_KEY) {
-            throw new Error('OPENAI_API_KEY environment variable is missing.');
+        const apiKey = process.env.OPENAI_API_KEY;
+        if (!apiKey) {
+            console.error('OPENAI_API_KEY environment variable is missing.');
+            return new Response(
+                'ขออภัยครับ ระบบ AI ยังไม่พร้อมใช้งาน (missing API key) 🙏',
+                { status: 500 }
+            );
         }
 
-        const result = await streamText({
+        const openrouter = createOpenRouter({
+            apiKey,
+            headers: {
+                'HTTP-Referer': 'https://web-portfolios-phi.vercel.app/',
+                'X-Title': 'Dollatham Portfolio Chat',
+            }
+        });
+
+        const result = streamText({
             model: openrouter.chat('google/gemini-2.5-flash'),
             system: SYSTEM_PROMPT,
             messages,
@@ -97,12 +102,12 @@ export async function POST(req: Request) {
         return result.toTextStreamResponse();
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Unknown error';
-        console.error('OpenRouter API Error:', error); // Add log for Vercel
+        console.error('Chat API Error:', message, error);
         const isRateLimit = message.includes('quota') || message.includes('429') || message.includes('RESOURCE_EXHAUSTED');
         return new Response(
             isRateLimit
                 ? 'ขออภัยครับ ขณะนี้ระบบ AI ถูกใช้งานเกินจำนวนที่กำหนด กรุณาลองใหม่ในอีกสักครู่ 🙏'
-                : 'ขออภัยครับ เกิดข้อผิดพลาดในระบบ กรุณาลองใหม่อีกครั้ง 🙏',
+                : `ขออภัยครับ เกิดข้อผิดพลาดในระบบ กรุณาลองใหม่อีกครั้ง 🙏`,
             { status: isRateLimit ? 429 : 500 }
         );
     }
